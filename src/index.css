@@ -21,6 +21,7 @@
 
 .reginput{
     margin: 30px;
+    position: relative;
 
 }
 
@@ -48,3 +49,23 @@
     padding: 10px;
     border-radius: 50px;
 }
+
+.alert {
+  width: 48%;
+  text-align: center;
+}
+
+.MuiPaper-root{
+  margin-left: 232px;
+  width: 45%;
+}
+.eye {
+  cursor: pointer;
+  position: absolute;
+  top: 19px;
+  right: 249px;
+}
+/* .MuiAlert-root{
+  width: 45%;
+  text-align: center;
+} */
