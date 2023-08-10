@@ -4,6 +4,7 @@ import regLogo from '../assets/regLogo.png'
 import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getDatabase, ref, set, push } from "firebase/database";
 import { useNavigate, Link } from 'react-router-dom';
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
 
@@ -23,6 +24,7 @@ const Registration = () => {
   let navigate = useNavigate()
 
   const auth = getAuth();
+  const db = getDatabase();
 
   let [values, setValues] = useState(innitialValues)
 
@@ -69,11 +71,15 @@ const Registration = () => {
     })
 
     createUserWithEmailAndPassword(auth, email, password)
-  .then((user) => {
-    sendEmailVerification(auth.currentUser)
-  .then(() => {
-   console.log("emailsent")
-  });
+      .then((user) => {
+        sendEmailVerification(auth.currentUser)
+      .then(() => {
+        set(ref(db, 'users/' + user.user.uid), {
+          username: values.fullName,
+          email: values.email,
+        });
+      });
+      
     setValues({
       email: "",
       fullName:"",
@@ -143,9 +149,11 @@ const Registration = () => {
                 <Button onClick={handleSubmit} variant="contained">Sign up</Button>
                 </div>
             }
-
+              <div className="reginput">
+                <Alert severity="info">Forgot password <Link to={"/forgotpassword"}>Click Here</Link></Alert>
+              </div>
             
-           
+            
           </div>
         </div>
     </>

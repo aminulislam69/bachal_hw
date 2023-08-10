@@ -23,6 +23,7 @@ const Login = () => {
  
    
   const auth = getAuth();
+  let navigate = useNavigate()
 
   let [values, setValues] = useState(innitialValues)
 
@@ -73,8 +74,8 @@ const Login = () => {
       loding:false,
       eye: false
     })
-    // navigate("/login")
-    console.log(user)
+        navigate("/bachal/home")
+    
     })
   }
 
