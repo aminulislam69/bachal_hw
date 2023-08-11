@@ -3,8 +3,8 @@ import {TextField,  Alert} from '@mui/material';
 import regLogo from '../assets/regLogo.png'
 import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
-import { getDatabase, ref, set, push } from "firebase/database";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
+import { getDatabase, ref, set, push} from "firebase/database";
 import { useNavigate, Link } from 'react-router-dom';
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
 
@@ -70,15 +70,34 @@ const Registration = () => {
       loding:true
     })
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((user) => {
+    // createUserWithEmailAndPassword(auth, email, password)
+    // updateProfile(auth.currentUser, {
+    //   displayName: values.fullName, photoURL: "https://i.ibb.co/Tht5KnJ/profilepicdemo.png"
+    // }).then((user) => {
+    //     sendEmailVerification(auth.currentUser)
+    //   .then(() => {
+    //     set(ref(db, 'users/' + user.user.uid), {
+    //       username: values.fullName,
+    //       email: values.email,
+    //     });
+    //   });
+
+
+    createUserWithEmailAndPassword(auth, email, password).then((user)=>{
+      updateProfile(auth.currentUser, {
+        displayName: values.fullName
+      }).then(() => {
         sendEmailVerification(auth.currentUser)
-      .then(() => {
-        set(ref(db, 'users/' + user.user.uid), {
-          username: values.fullName,
-          email: values.email,
-        });
-      });
+          .then(() => {
+          console.log("email sent")
+          console.log(user)
+  
+          set(ref(db, 'users/' + user.user.uid), {
+            username: values.fullName,
+            email: values.email,
+          });
+        })
+      })
       
     setValues({
       email: "",
