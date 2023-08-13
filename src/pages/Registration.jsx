@@ -70,28 +70,15 @@ const Registration = () => {
       loding:true
     })
 
-    // createUserWithEmailAndPassword(auth, email, password)
-    // updateProfile(auth.currentUser, {
-    //   displayName: values.fullName, photoURL: "https://i.ibb.co/Tht5KnJ/profilepicdemo.png"
-    // }).then((user) => {
-    //     sendEmailVerification(auth.currentUser)
-    //   .then(() => {
-    //     set(ref(db, 'users/' + user.user.uid), {
-    //       username: values.fullName,
-    //       email: values.email,
-    //     });
-    //   });
+   
 
 
     createUserWithEmailAndPassword(auth, email, password).then((user)=>{
       updateProfile(auth.currentUser, {
-        displayName: values.fullName
+        displayName: values.fullName, photoURL: "https://i.ibb.co/qgKg5pF/propic.jpg"
       }).then(() => {
         sendEmailVerification(auth.currentUser)
           .then(() => {
-          console.log("email sent")
-          console.log(user)
-  
           set(ref(db, 'users/' + user.user.uid), {
             username: values.fullName,
             email: values.email,
