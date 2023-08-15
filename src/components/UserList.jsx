@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import propic from '../assets/propic.png'
 import Button from '@mui/material/Button';
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, onValue, set, push  } from "firebase/database";
+import { getDatabase, ref, onValue, set, push, remove  } from "firebase/database";
 
 const UserList = () => {
 
@@ -11,8 +11,36 @@ const UserList = () => {
 
   let [usersList, setUersList] = useState([])
   let [friendrequest, setFriendrequest] = useState([])
+  let [cancelId, setCancelId] = useState([])
 
 
+  useEffect(()=>{
+
+    const usersRef = ref(db, 'friendsrequest/');
+    onValue(usersRef, (snapshot) => {
+      let arr = []
+    snapshot.forEach(item=>{
+      arr.push({...item.val(), id:item.key})
+    })
+
+    setCancelId(arr)
+   
+  
+  });
+
+},[])
+
+let handleCancle = (item)=>{
+  cancelId.map(it=>{
+    
+    if(item.id == it.whoreciveid){
+      console.log(it.id)
+      remove(ref(db, 'friendsrequest/' + it.id) )
+    }
+  })
+ 
+  
+}
 
   useEffect(()=>{
 
@@ -21,14 +49,14 @@ const UserList = () => {
       let arr = []
       
     snapshot.forEach(item=>{
-      arr.push(item.val().whoreciveid+item.val().whosendid)
+      arr.push(item.val().whoreciveid+item.val().whosendid, item.key)
    
     })
 
     setFriendrequest(arr)
     
   });
-  console.log("setFriendrequest",friendrequest)
+ 
 
   },[])
 
@@ -80,7 +108,7 @@ let handleFriendReq =(item)=>{
         <div className="button">
           {friendrequest.includes(item.id+auth.currentUser.uid)?
           
-          <Button  size="small" variant="contained">cancel</Button>
+          <Button onClick={()=>handleCancle(item)}  size="small" variant="contained">cancel</Button>
         :
         
           <Button onClick={()=>handleFriendReq(item)} size="small" variant="contained">+</Button>

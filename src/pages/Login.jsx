@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import { useNavigate, Link } from 'react-router-dom';
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
+import { useDispatch } from 'react-redux'
+import { userData } from '../slices/user/userSlice';
 
 
 
@@ -24,6 +26,7 @@ const Login = () => {
    
   const auth = getAuth();
   let navigate = useNavigate()
+  let dispatch = useDispatch()
 
   let [values, setValues] = useState(innitialValues)
 
@@ -74,6 +77,7 @@ const Login = () => {
       loding:false,
       eye: false
     })
+        dispatch(userData(user.user))
         navigate("/bachal/home")
     
     })
