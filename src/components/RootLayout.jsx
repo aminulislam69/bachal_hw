@@ -1,11 +1,27 @@
 import React from 'react'
 import { Outlet, Link, useLocation} from 'react-router-dom'
 import Grid from '@mui/material/Grid';
-import { AiOutlineHome, AiOutlineUsergroupAdd } from 'react-icons/ai'
+import { AiOutlineHome, AiOutlineUsergroupAdd, AiOutlineLogout } from 'react-icons/ai'
 import { BsChatDots, BsPeople } from 'react-icons/bs'
 import { SlPeople } from 'react-icons/sl'
+import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 const RootLayout = () => {
+
+    const auth = getAuth();
+    let navigate = useNavigate()
+
+
+    let handleLogout =()=>{
+
+      
+        signOut(auth).then(() => {
+            localStorage.removeItem("user")
+            navigate("/login")
+        })
+
+    }
 
 let location = useLocation()
 
@@ -44,6 +60,10 @@ console.log(location.pathname)
                     <li>
                         <BsPeople/>
                         <span>People</span>  
+                    </li>
+                    <li onClick={handleLogout}>
+                        <AiOutlineLogout/>
+                        <span>log Out</span>  
                     </li>
                 </ul>
             </div>

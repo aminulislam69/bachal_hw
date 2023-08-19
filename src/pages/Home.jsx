@@ -7,24 +7,30 @@ import UserList from '../components/UserList';
 import FriendRequest from '../components/FriendRequest';
 import MyGroups from '../components/MyGroups';
 import Block from '../components/Block';
-
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 
 
 
 const Home = () => {
 
+
+
   let navigate = useNavigate()
-//   let loginUser = useSelector((state)=> state.loggedUser.loginUser)
+
+  let loginUser = useSelector((state)=> state.loggedUser.loginUser)
+
+  
 
 
-//   useEffect(()=>{
+  useEffect(()=>{
 
-//     if(loginUser == null){
-//       navigate("/login")
-//     }
+    if(loginUser == null){
+      navigate("/login")
+    }
 
-//   },[])
+  },[])
 
 
 

@@ -3,12 +3,13 @@ import {TextField, Alert} from '@mui/material';
 import regLogo from '../assets/regLogo.png'
 import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import { useNavigate, Link } from 'react-router-dom';
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
 import { useDispatch } from 'react-redux'
 import { userData } from '../slices/user/userSlice';
+import { useSelector } from 'react-redux';
 
 
 
@@ -25,10 +26,19 @@ const Login = () => {
  
    
   const auth = getAuth();
-  let navigate = useNavigate()
+ 
   let dispatch = useDispatch()
 
   let [values, setValues] = useState(innitialValues)
+
+  let navigate = useNavigate()
+
+  let loginUser = useSelector((state)=> state.loggedUser.loginUser)
+
+
+ 
+
+
 
   let handleValue = (e) =>{
     setValues({
@@ -78,6 +88,7 @@ const Login = () => {
       eye: false
     })
         dispatch(userData(user.user))
+        localStorage.setItem("user", JSON.stringify(user.user))
         navigate("/bachal/home")
     
     })
@@ -89,6 +100,7 @@ const Login = () => {
       eye:!values.eye
     })
   }
+
 
 
   return (

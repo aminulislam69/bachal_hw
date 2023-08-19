@@ -3,11 +3,12 @@ import { createSlice } from '@reduxjs/toolkit'
 export const counterSlice = createSlice({
   name: 'user',
   initialState: {
-    loginUser: 10,
+    loginUser: null,
   },
   reducers: {
     userData: (state, action) => {
-        console.log(state.loginUser)
+        // console.log(state.loginUser)
+        state.loginUser = action.payload
     
     },
   },
