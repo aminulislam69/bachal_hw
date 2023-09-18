@@ -74,6 +74,7 @@ const Registration = () => {
 
 
     createUserWithEmailAndPassword(auth, email, password).then((user)=>{
+      console.log("this is user", user)
       updateProfile(auth.currentUser, {
         displayName: values.fullName, photoURL: "https://i.ibb.co/qgKg5pF/propic.jpg"
       }).then(() => {

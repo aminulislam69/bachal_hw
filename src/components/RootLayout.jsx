@@ -1,16 +1,20 @@
 import React from 'react'
-import { Outlet, Link, useLocation} from 'react-router-dom'
+import { Outlet, Link, useLocation, useNavigate} from 'react-router-dom'
 import Grid from '@mui/material/Grid';
 import { AiOutlineHome, AiOutlineUsergroupAdd, AiOutlineLogout } from 'react-icons/ai'
 import { BsChatDots, BsPeople } from 'react-icons/bs'
 import { SlPeople } from 'react-icons/sl'
-import { getAuth, signOut } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
+import { getAuth, signOut } from "firebase/auth"
+import { useSelector } from 'react-redux'
+
+import propic from '../assets/propic.png'
+
 
 const RootLayout = () => {
 
     const auth = getAuth();
     let navigate = useNavigate()
+    let userData = useSelector((state)=> state.loggedUser.loginUser)
 
 
     let handleLogout =()=>{
@@ -25,16 +29,16 @@ const RootLayout = () => {
 
 let location = useLocation()
 
-console.log(location.pathname)
 
-  return (
+return (
     
 
 <Grid container spacing={2}>
     <Grid item xs={2}>
         <div className="navbar">
             <div className="navcontainer">
-                <h2>Chatt.</h2>
+            <img src={propic}/>
+                <h4>{userData.displayName}</h4>
                 <ul>
                     <Link to={"/bachal/home"} className={location.pathname ==  "bachal/home" ? "active" : "deactive"}>
                     <li>

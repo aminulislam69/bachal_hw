@@ -3,6 +3,7 @@ import propic from '../assets/propic.png'
 import Button from '@mui/material/Button';
 import { getAuth } from "firebase/auth";
 import { getDatabase, ref, onValue, set, push, remove  } from "firebase/database";
+import { useSelector } from 'react-redux'
 
 const UserList = () => {
 
@@ -13,6 +14,9 @@ const UserList = () => {
   let [friendrequest, setFriendrequest] = useState([])
   let [cancelId, setCancelId] = useState([])
 
+  let userData = useSelector((state)=> state.loggedUser.loginUser)
+
+
 
   useEffect(()=>{
 
@@ -20,9 +24,11 @@ const UserList = () => {
     onValue(usersRef, (snapshot) => {
       let arr = []
     snapshot.forEach(item=>{
+      
       arr.push({...item.val(), id:item.key})
+     
     })
-
+    
     setCancelId(arr)
    
   
@@ -32,9 +38,7 @@ const UserList = () => {
 
 let handleCancle = (item)=>{
   cancelId.map(it=>{
-    
     if(item.id == it.whoreciveid){
-      console.log(it.id)
       remove(ref(db, 'friendsrequest/' + it.id) )
     }
   })
@@ -66,7 +70,10 @@ let handleCancle = (item)=>{
     onValue(usersRef, (snapshot) => {
       let arr = []
     snapshot.forEach(item=>{
-      arr.push({...item.val(), id:item.key})
+      if(userData.uid != item.key){
+
+        arr.push({...item.val(), id:item.key})
+      }
     })
 
     setUersList(arr)
